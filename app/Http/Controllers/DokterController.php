@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Dokter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
 use Tymon\JWTAuth\Facades\JWTAuth;
+=======
+>>>>>>> 4f77ee1e8e61b5dc0ac248352899f043a9f46365
 
 class DokterController extends Controller
 {
