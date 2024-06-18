@@ -6,11 +6,17 @@ use App\Models\Dokter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+
 class DokterController extends Controller
 {
     public function __construct()
     {
+
         $this->middleware('auth:api', ['except' => ['index', 'show', 'destroy']]);
+
     }
 
     public function index()
