@@ -6,30 +6,22 @@ use App\Models\Dokter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class DokterController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['except' => ['index', 'show', 'detroy']]);
+
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'destroy']]);
+
     }
 
     public function index()
     {
-        $dokter = Dokter::all();
-        return response()->json($dokter);
-    }
-
-    public function show($id)
-    {
-        $dokter = Dokter::find($id);
-
-        if (!$dokter) {
-            return response()->json(['message' => 'Dokter not found'], 404);
-        }
-
-        return response()->json($dokter);
+        return response()->json(Dokter::all());
     }
 
     public function store(Request $request)
@@ -45,7 +37,7 @@ class DokterController extends Controller
         return response()->json($dokter, 201);
     }
 
-    public function update(Request $request, $id)
+    public function show($id)
     {
         $dokter = Dokter::find($id);
 
@@ -53,11 +45,22 @@ class DokterController extends Controller
             return response()->json(['message' => 'Dokter not found'], 404);
         }
 
+        return response()->json($dokter);
+    }
+
+    public function update(Request $request, $id)
+    {
         $this->validate($request, [
             'nama' => 'sometimes|required|string|max:255',
             'spesialis' => 'sometimes|required|string|max:255',
             'no_telepon' => 'sometimes|required|string|max:15',
         ]);
+
+        $dokter = Dokter::find($id);
+
+        if (!$dokter) {
+            return response()->json(['message' => 'Dokter not found'], 404);
+        }
 
         $dokter->update($request->all());
 
