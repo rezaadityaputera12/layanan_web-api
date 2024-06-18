@@ -24,4 +24,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('me', 'AuthController@me');
 });
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('dokter', 'DokterController@index'); // Read all
+    $router->get('dokter/{id}', 'DokterController@show'); // Read one
+
+    $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
+        $router->post('dokter', 'DokterController@store'); // Create
+        $router->put('dokter/{id}', 'DokterController@update'); // Update
+        $router->delete('dokter/{id}', 'DokterController@destroy'); // Delete
+    });
+});
 
