@@ -34,4 +34,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->delete('dokter/{id}', 'DokterController@destroy'); // Delete
     });
 });
+$router->group(['prefix' => 'api'], function () use ($router) {
+    // Rute tanpa autentikasi
+    $router->get('new_pasiens', 'NewPasienController@index');
+    $router->get('new_pasiens/{id}', 'NewPasienController@show');
+
+    // Rute dengan autentikasi JWT
+    $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
+        $router->post('new_pasiens', 'NewPasienController@store');
+        $router->put('new_pasiens/{id}', 'NewPasienController@update');
+        $router->delete('new_pasiens/{id}', 'NewPasienController@destroy');
+    });
+});
 
